@@ -14,6 +14,7 @@ import { Todo } from "@/types/todo";
 import { addDays, isSameDay } from "date-fns";
 import { Plus } from "lucide-react";
 import { useState } from "react";
+import { CalendarView } from "./calendar-view";
 import { TodoItem } from "./todo-item";
 
 const initialTodos: Todo[] = [
@@ -125,6 +126,11 @@ export function TodoList() {
 
   return (
     <div className="relative min-h-[500px]">
+      <CalendarView
+        selectedDate={selectedDate}
+        onSelectDate={setSelectedDate}
+      />
+
       <div className="space-y-1">
         {filteredTodos.map((todo) => (
           <TodoItem
