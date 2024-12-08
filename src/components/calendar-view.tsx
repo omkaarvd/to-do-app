@@ -83,7 +83,10 @@ export function CalendarView({
         <h2 className="font-semibold">{format(selectedDate, "iii, MMM dd")}</h2>
       </div>
 
-      <div ref={scrollRef} className="flex overflow-x-auto pb-2">
+      <div
+        ref={scrollRef}
+        className="flex overflow-x-auto pb-2 horizontal-scroll"
+      >
         {visibleDates.map((date) => {
           const isSelected = isSameDay(date, selectedDate);
           const isCurrent = isToday(date);
