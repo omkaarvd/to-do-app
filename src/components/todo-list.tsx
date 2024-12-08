@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import useTodoStore from "@/store";
 import { Todo } from "@/types/todo";
-import { format, isSameDay } from "date-fns";
+import { format, isSameDay, isToday, isTomorrow, isYesterday } from "date-fns";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { CalendarView } from "./calendar-view";
@@ -77,6 +77,14 @@ export function TodoList() {
     isSameDay(new Date(todo.date), selectedDate)
   );
 
+  let dateLabel = isToday(selectedDate)
+    ? "Today"
+    : isYesterday(selectedDate)
+    ? "Yesterday"
+    : isTomorrow(selectedDate)
+    ? "Tomorrow"
+    : format(selectedDate, "EEE, MMM dd");
+
   return (
     <div className="relative min-h-[500px]">
       <CalendarView
@@ -84,9 +92,7 @@ export function TodoList() {
         onSelectDate={setSelectedDate}
       />
 
-      <h2 className="font-semibold text-lg leading-none my-3">
-        {format(selectedDate, "iii, MMM dd")}
-      </h2>
+      <h2 className="font-semibold text-lg leading-none my-3">{dateLabel}</h2>
 
       {filteredTodos.length === 0 && (
         <p className="text-center text-muted-foreground mt-4">No todos</p>
