@@ -17,7 +17,7 @@ export function TodoItem({ todo, onToggle, onDelete, onEdit }: TodoItemProps) {
       <Checkbox
         checked={todo.completed}
         onCheckedChange={() => onToggle(todo.id)}
-        className="size-5 rounded-full"
+        className="size-5"
       />
       <div className="flex-1">
         <h3
