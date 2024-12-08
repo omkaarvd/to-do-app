@@ -77,7 +77,7 @@ export function TodoList() {
     isSameDay(new Date(todo.date), selectedDate)
   );
 
-  let dateLabel = isToday(selectedDate)
+  const dateLabel = isToday(selectedDate)
     ? "Today"
     : isYesterday(selectedDate)
     ? "Yesterday"
