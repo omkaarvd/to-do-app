@@ -16,6 +16,7 @@ import {
 import { CalendarDaysIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
+import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 
 interface CalendarViewProps {
   selectedDate: Date;
@@ -86,43 +87,43 @@ export function CalendarView({
         </Popover>
       </div>
 
-      <div
-        ref={scrollRef}
-        className="flex overflow-x-auto pb-2 horizontal-scroll"
-      >
-        {visibleDates.map((date) => {
-          const isSelected = isSameDay(date, selectedDate);
-          const isCurrent = isToday(date);
+      <ScrollArea className="whitespace-nowrap">
+        <div ref={scrollRef} className="flex w-max space-x-4 p-4 pt-0">
+          {visibleDates.map((date) => {
+            const isSelected = isSameDay(date, selectedDate);
+            const isCurrent = isToday(date);
 
-          return (
-            <button
-              key={date.toISOString()}
-              onClick={() => onSelectDate(date)}
-              className={cn(
-                "flex flex-col items-center justify-center min-w-[60px] h-20 mx-1 rounded-lg transition-colors",
-                isSelected
-                  ? "bg-primary text-primary-foreground"
-                  : isCurrent
-                  ? "bg-secondary text-secondary-foreground"
-                  : "hover:bg-muted"
-              )}
-              data-selected={isSelected}
-            >
-              <span className="text-xs font-semibold mb-1">
-                {format(date, "EEE")}
-              </span>
-              <span
+            return (
+              <button
+                key={date.toISOString()}
+                onClick={() => onSelectDate(date)}
                 className={cn(
-                  "text-2xl font-bold",
-                  isCurrent && !isSelected && "text-primary"
+                  "flex flex-col items-center justify-center min-w-[60px] h-20 mx-1 rounded-lg transition-colors",
+                  isSelected
+                    ? "bg-primary text-primary-foreground"
+                    : isCurrent
+                    ? "bg-secondary text-secondary-foreground"
+                    : "hover:bg-muted"
                 )}
+                data-selected={isSelected}
               >
-                {format(date, "dd")}
-              </span>
-            </button>
-          );
-        })}
-      </div>
+                <span className="text-xs font-semibold mb-1">
+                  {format(date, "EEE")}
+                </span>
+                <span
+                  className={cn(
+                    "text-2xl font-bold",
+                    isCurrent && !isSelected && "text-primary"
+                  )}
+                >
+                  {format(date, "dd")}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
     </div>
   );
 }
