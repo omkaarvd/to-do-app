@@ -1,5 +1,3 @@
-"use client";
-
 import { Checkbox } from "@/components/ui/checkbox";
 import { Todo } from "@/types/todo";
 import { cn } from "@/lib/utils";

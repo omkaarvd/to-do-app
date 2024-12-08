@@ -10,84 +10,37 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import useTodoStore from "@/store";
 import { Todo } from "@/types/todo";
-import { addDays, isSameDay } from "date-fns";
+import { isSameDay } from "date-fns";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { CalendarView } from "./calendar-view";
 import { TodoItem } from "./todo-item";
 
-const initialTodos: Todo[] = [
-  {
-    id: "1",
-    title: "Meet Jack Sparrow",
-    description: "Free him from the prison in Port Royal",
-    completed: true,
-    date: new Date().toISOString(),
-  },
-  {
-    id: "2",
-    title: "Head for Tortuga",
-    description: "Assemble a crew there",
-    completed: false,
-    date: new Date().toISOString(),
-  },
-  {
-    id: "3",
-    title: "Chase The Pearl",
-    description: "All the way up to Isla de Muerta",
-    completed: false,
-    date: addDays(new Date(), 1).toISOString(),
-  },
-  {
-    id: "4",
-    title: "Find Elizabeth",
-    description: "Prevent Barbossa from hurting her",
-    completed: false,
-    date: addDays(new Date(), 2).toISOString(),
-  },
-  {
-    id: "5",
-    title: "Shoot Barbossa",
-    description: "After lifting the curse and depriving him of immortality",
-    completed: false,
-    date: addDays(new Date(), 2).toISOString(),
-  },
-];
-
 export function TodoList() {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [todos, setTodos] = useState<Todo[]>(initialTodos);
   const [newTitle, setNewTitle] = useState("");
   const [newDescription, setNewDescription] = useState("");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
 
-  const toggleTodo = (id: string) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
-  };
-
-  const deleteTodo = (id: string) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
-  };
+  const todos = useTodoStore((state) => state.todos);
+  const toggle = useTodoStore((state) => state.toggle);
+  const remove = useTodoStore((state) => state.remove);
+  const add = useTodoStore((state) => state.add);
+  const edit = useTodoStore((state) => state.edit);
 
   const addTodo = () => {
     if (newTitle.trim()) {
-      setTodos([
-        ...todos,
-        {
-          id: Math.random().toString(),
-          title: newTitle,
-          description: newDescription,
-          completed: false,
-          date: selectedDate.toISOString(),
-        },
-      ]);
+      add({
+        id: Math.random().toString(),
+        title: newTitle,
+        description: newDescription,
+        completed: false,
+        date: selectedDate.toISOString(),
+      });
       setNewTitle("");
       setNewDescription("");
       setIsAddDialogOpen(false);
@@ -96,6 +49,7 @@ export function TodoList() {
 
   const editTodo = (id: string) => {
     const todoToEdit = todos.find((todo) => todo.id === id);
+
     if (todoToEdit) {
       setEditingTodo(todoToEdit);
       setNewTitle(todoToEdit.title);
@@ -106,13 +60,12 @@ export function TodoList() {
 
   const updateTodo = () => {
     if (editingTodo && newTitle.trim()) {
-      setTodos(
-        todos.map((todo) =>
-          todo.id === editingTodo.id
-            ? { ...todo, title: newTitle, description: newDescription }
-            : todo
-        )
-      );
+      edit({
+        ...editingTodo,
+        title: newTitle,
+        description: newDescription,
+      });
+
       setEditingTodo(null);
       setNewTitle("");
       setNewDescription("");
@@ -131,21 +84,21 @@ export function TodoList() {
         onSelectDate={setSelectedDate}
       />
 
+      {filteredTodos.length === 0 && (
+        <p className="text-center text-muted-foreground mt-4">No todos</p>
+      )}
+
       <div className="space-y-1">
         {filteredTodos.map((todo) => (
           <TodoItem
             key={todo.id}
             todo={todo}
-            onToggle={toggleTodo}
-            onDelete={deleteTodo}
+            onToggle={toggle}
+            onDelete={remove}
             onEdit={editTodo}
           />
         ))}
       </div>
-
-      {filteredTodos.length === 0 && (
-        <p className="text-center text-muted-foreground mt-4">No todos</p>
-      )}
 
       <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
         <DialogTrigger asChild>
