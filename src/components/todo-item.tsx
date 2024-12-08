@@ -13,11 +13,11 @@ interface TodoItemProps {
 
 export function TodoItem({ todo, onToggle, onDelete, onEdit }: TodoItemProps) {
   return (
-    <div className="flex items-start space-x-4 py-4">
+    <div className="flex items-start space-x-4 py-4 shadow p-4 rounded-xl bg-white">
       <Checkbox
         checked={todo.completed}
         onCheckedChange={() => onToggle(todo.id)}
-        className="mt-1"
+        className="size-5 rounded-full"
       />
       <div className="flex-1">
         <h3
@@ -44,7 +44,7 @@ export function TodoItem({ todo, onToggle, onDelete, onEdit }: TodoItemProps) {
           onClick={() => onEdit(todo.id)}
           className="text-muted-foreground hover:text-primary"
         >
-          <Edit className="h-4 w-4" />
+          <Edit className="scale-110" />
         </Button>
         <Button
           variant="ghost"
@@ -52,7 +52,7 @@ export function TodoItem({ todo, onToggle, onDelete, onEdit }: TodoItemProps) {
           onClick={() => onDelete(todo.id)}
           className="text-muted-foreground hover:text-destructive"
         >
-          <Trash2 className="h-4 w-4" />
+          <Trash2 className="scale-110" />
         </Button>
       </div>
     </div>

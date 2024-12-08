@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import useTodoStore from "@/store";
 import { Todo } from "@/types/todo";
-import { isSameDay } from "date-fns";
+import { format, isSameDay } from "date-fns";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { CalendarView } from "./calendar-view";
@@ -84,11 +84,15 @@ export function TodoList() {
         onSelectDate={setSelectedDate}
       />
 
+      <h2 className="font-semibold text-lg leading-none my-3">
+        {format(selectedDate, "iii, MMM dd")}
+      </h2>
+
       {filteredTodos.length === 0 && (
         <p className="text-center text-muted-foreground mt-4">No todos</p>
       )}
 
-      <div className="space-y-1">
+      <div className="space-y-4">
         {filteredTodos.map((todo) => (
           <TodoItem
             key={todo.id}
@@ -104,9 +108,9 @@ export function TodoList() {
         <DialogTrigger asChild>
           <Button
             size="icon"
-            className="h-14 w-14 rounded-full fixed bottom-6 right-6 shadow-lg"
+            className="size-12 rounded-full fixed bottom-6 right-6 shadow-lg"
           >
-            <Plus className="h-6 w-6" />
+            <Plus className="scale-125" strokeWidth={3} />
           </Button>
         </DialogTrigger>
         <DialogContent>
@@ -124,7 +128,7 @@ export function TodoList() {
               value={newDescription}
               onChange={(e) => setNewDescription(e.target.value)}
             />
-            <Button onClick={addTodo} className="w-full">
+            <Button onClick={addTodo} className="w-full font-semibold">
               Add Todo
             </Button>
           </div>
@@ -147,7 +151,7 @@ export function TodoList() {
               value={newDescription}
               onChange={(e) => setNewDescription(e.target.value)}
             />
-            <Button onClick={updateTodo} className="w-full">
+            <Button onClick={updateTodo} className="w-full font-semibold">
               Update Todo
             </Button>
           </div>

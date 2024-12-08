@@ -13,7 +13,7 @@ import {
   isToday,
   startOfMonth,
 } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { CalendarDaysIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
 
@@ -60,13 +60,18 @@ export function CalendarView({
   }
 
   return (
-    <div className="relative mb-8">
-      <div className="flex flex-row items-center justify-between mb-4">
+    <div className="relative mb-6 shadow p-4 rounded-xl bg-white">
+      <div className="mb-4">
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="outline">
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              {format(selectedDate, "MMM yyyy")}
+            <Button
+              variant="outline"
+              className="flex flex-row items-center gap-3 justify-between"
+            >
+              <CalendarDaysIcon className="size-4" />
+              <span className="font-semibold">
+                {format(selectedDate, "MMM yyyy")}
+              </span>
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0">
@@ -79,8 +84,6 @@ export function CalendarView({
             />
           </PopoverContent>
         </Popover>
-
-        <h2 className="font-semibold">{format(selectedDate, "iii, MMM dd")}</h2>
       </div>
 
       <div
