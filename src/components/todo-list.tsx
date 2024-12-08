@@ -119,7 +119,7 @@ export function TodoList() {
             <Plus className="scale-125" strokeWidth={3} />
           </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent aria-describedby={undefined}>
           <DialogHeader>
             <DialogTitle>Add New Todo</DialogTitle>
           </DialogHeader>
@@ -142,7 +142,7 @@ export function TodoList() {
       </Dialog>
 
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent>
+        <DialogContent aria-describedby={undefined}>
           <DialogHeader>
             <DialogTitle>Edit Todo</DialogTitle>
           </DialogHeader>
