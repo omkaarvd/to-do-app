@@ -114,7 +114,7 @@ export function TodoList() {
         <DialogTrigger asChild>
           <Button
             size="icon"
-            className="size-12 rounded-full fixed bottom-6 right-6 shadow-lg"
+            className="size-12 rounded-full fixed bottom-6 left-1/2 -translate-x-1/2 shadow-lg"
           >
             <Plus className="scale-125" strokeWidth={3} />
           </Button>
